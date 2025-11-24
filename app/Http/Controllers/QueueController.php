@@ -10,4 +10,8 @@ class QueueController extends Controller
     {
         return view('queue.index');
     }
+    public function step2()
+    {
+        return view('queue.step2');
+    }
 }
