@@ -1,5 +1,6 @@
-<div x-show="currentStage === 1" class="flex justify-center items-start w-full max-w-full lg:max-w-lg mb-16 relative">
-    <div class="flex flex-col items-center w-1/3 relative z-10">
+<div x-show="currentStage === 1" x-cloak class="flex justify-center items-start w-full max-w-full lg:max-w-lg mb-16 relative">
+
+<div class="flex flex-col items-center w-1/3 relative z-10">
         <div class="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">1</div>
         <p class="mt-2 text-center text-sm font-semibold text-gray-900">Параметры очереди</p>
     </div>
@@ -19,7 +20,7 @@
     </div>
 </div>
 
-<div x-show="currentStage === 2" class="flex justify-center items-start w-full max-w-full lg:max-w-lg mb-16 relative">
+<div x-show="currentStage === 2" x-cloak class="flex justify-center items-start w-full max-w-full lg:max-w-lg mb-16 relative">
     <div class="flex flex-col items-center w-1/3 relative z-10">
         <div class="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +46,7 @@
     </div>
 </div>
 
-<div x-show="currentStage === 3" class="flex justify-center items-start w-full max-w-full lg:max-w-lg mb-16 relative">
+<div x-show="currentStage === 3" x-cloak class="flex justify-center items-start w-full max-w-full lg:max-w-lg mb-16 relative">
     <div class="flex flex-col items-center w-1/3 relative z-10">
         <div class="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

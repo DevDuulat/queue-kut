@@ -110,12 +110,11 @@
             color: white;
         }
         .success-icon::after {
-            content: "✓"; /* Используем символ галочки */
+            content: "✓";
             font-weight: bold;
         }
 
 
-        /* --- Заголовок --- */
 
         .popup-title {
             font-size: 22px;
@@ -124,7 +123,6 @@
             line-height: 1.3;
         }
 
-        /* --- Номер талона --- */
 
         .queue-label {
             font-size: 14px;
@@ -230,7 +228,7 @@
         }
     </style>
 </head>
-<body class="px-6 lg:px-12">
+<body class="px-6 lg:py-8 lg:px-12">
 
 
 @if(session('error'))
