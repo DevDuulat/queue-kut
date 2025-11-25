@@ -25,4 +25,3 @@
         </label>
     @endforeach
 </div>
-sc
