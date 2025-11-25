@@ -94,34 +94,32 @@
     </div>
 
     <div id="stage-1">
-        <div
-                x-data
-                x-init="
-            flatpickr.localize(flatpickr.l10ns.ru)
-            flatpickr('.datepicker', {
-                dateFormat: 'd.m.Y',
-                locale: 'ru',
-                allowInput: true
-            })
-        "
-        >
+        <div x-data x-init="
+    flatpickr($refs.issueDate, {
+        dateFormat: 'd.m.Y',
+        locale: 'ru',
+        allowInput: true,
+        clickOpens: true
+    })
+">
             <label for="issue_date" class="sr-only">Дата выдачи</label>
             <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 pr-3 pointer-events-none">
-                <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H3V0H5V2H13V0H15V2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V8H2V18ZM2 6H16V4H2V6Z" fill="#252525"/>
-                </svg>
-            </span>
+        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+            <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H3V0H5V2H13V0H15V2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V8H2V18ZM2 6H16V4H2V6Z" fill="#252525"/>
+            </svg>
+        </span>
                 <input
                         type="text"
                         name="issue_date"
-                        id="issue_date"
+                        x-ref="issueDate"
                         required
-                        class="datepicker input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 pl-[70px] focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                         placeholder="Дата выдачи *"
+                        class="datepicker input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 pl-[70px] focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                 />
             </div>
         </div>
+
     </div>
 </div>
 
