@@ -5,7 +5,6 @@
             :disabled="currentStage === 1"
             class="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 disabled:opacity-50 transition duration-150"
     >
-        {{-- Предполагается, что x-icons.prev-icon - это тоже компонент Laravel --}}
         <x-icons.prev-icon/>
         Назад
     </button>
