@@ -1,12 +1,22 @@
+<div x-data="{
+        first_name: '{{ old('first_name') }}',
+        last_name: '{{ old('last_name') }}',
+        number: '{{ old('number') }}',
+        inn: '{{ old('inn') }}',
+        issue_date: '{{ old('issue_date') }}',
+        issued_by: '{{ old('issued_by') }}',
+        document_number: '{{ old('document_number') }}',
+    }">
 <h3 class="text-lg font-semibold text-gray-900 mb-4">Личные данные</h3>
+
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
     <div>
         <label for="first_name" class="sr-only">Имя</label>
-        <input type="text" name="first_name" id="first_name" placeholder="Имя *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150" />
+        <input type="text" name="first_name"  x-model="first_name"  id="first_name" placeholder="Имя *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150" />
     </div>
     <div>
         <label for="last_name" class="sr-only">Фамилия</label>
-        <input type="text" name="last_name" id="last_name" placeholder="Фамилия *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150" />
+        <input type="text" name="last_name"  x-model="last_name" id="last_name" placeholder="Фамилия *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150" />
     </div>
 </div>
 
@@ -88,7 +98,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
     <div>
         <label for="inn" class="sr-only">ИНН</label>
-        <input type="text" name="inn" id="inn" placeholder="ИНН *" maxlength="14" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+        <input type="text" x-model="inn" name="inn" id="inn" placeholder="ИНН *" maxlength="14" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
     </div>
 
     <div x-data="{ swapped: false }">
@@ -102,7 +112,7 @@
                 <span class="ml-1 text-black" x-text="swapped ? 'AN' : 'ID'"></span>
             </button>
 
-            <input type="text" name="document_number" placeholder="Номер документа *" required maxlength="7" class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 pl-[90px]">
+            <input type="text" name="document_number" x-model="document_number" placeholder="Номер документа *" required maxlength="7" class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 pl-[90px]">
         </div>
     </div>
 </div>
@@ -110,7 +120,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
     <div>
         <label for="issued_by" class="sr-only">Кем выдан</label>
-        <input type="text" name="issued_by" id="issued_by" placeholder="Кем выдан *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150" />
+        <input type="text" name="issued_by" x-ref="issued_by" x-model="issued_by" id="issued_by" placeholder="Кем выдан *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150" />
     </div>
 
     <div id="stage-1">
@@ -134,6 +144,7 @@
                         name="issue_date"
                         x-ref="issueDate"
                         required
+                        x-model="issue_date"
                         placeholder="Дата выдачи *"
                         class="datepicker input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 pl-[70px] focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                 />
@@ -141,13 +152,13 @@
         </div>
     </div>
 </div>
+</div>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
 
 <script>
-    // Оригинальная функция phoneMask (для Кыргызстана)
     function phoneMask() {
         return {
             number: '',
@@ -167,7 +178,6 @@
     function phoneMaskExtended() {
         return {
             number: '',
-            // Упрощенные маски: # - заменитель для цифры
             countries: [
                 { id: 'kg', name: 'Кыргызстан', code: '+996', mask: '(###) ### - ###', placeholder: '(700) 000 - 000', maxlen: 9 },
                 { id: 'ru', name: 'Россия', code: '+7', mask: '(###) ### - ## - ##', placeholder: '(900) 000 - 00 - 00', maxlen: 10 },
@@ -186,30 +196,24 @@
                 this.$refs.phoneNumberInput.focus();
             },
 
-            // Упрощенная и более чистая логика форматирования
             formatPhone(e) {
                 const input = e.target;
-                // 1. Очищаем ввод: оставляем только цифры, ограничивая длину
                 const cleaned = input.value.replace(/\D/g, '').slice(0, this.selectedCountry.maxlen);
                 let formatted = '';
                 let cleanedIndex = 0;
                 const mask = this.currentMask;
 
-                // 2. Применяем цифры к маске
                 for (let i = 0; i < mask.length; i++) {
                     const maskChar = mask[i];
 
                     if (cleanedIndex >= cleaned.length) {
-                        // Если цифры закончились, прекращаем форматирование
                         break;
                     }
 
                     if (maskChar === '#') {
-                        // Если символ маски — это заменитель (#), вставляем следующую цифру
                         formatted += cleaned[cleanedIndex];
                         cleanedIndex++;
                     } else {
-                        // Если символ маски — разделитель ((), -, пробел), добавляем его
                         formatted += maskChar;
                     }
                 }

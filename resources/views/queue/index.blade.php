@@ -1,15 +1,17 @@
 <x-layouts.app title="Очередь на квартиру">
-    <form action="{{ route('queue.submit') }}" method="POST" x-data="{
-        currentStage: 1,
-        queue_type: 'without_down_payment',
-        apartment_type: '1_room',
-        monthly_payment: null,
-        custom_monthly: null,
-        down_payment: null,
-        payment_term: null,
-        number: ''
-    }" class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 lg:max-h-screen">
+    <form action="{{ route('queue.submit') }}" method="POST"
+          x-data="{
+        currentStage: {{ old('currentStage', 1) }},
+        queue_type: '{{ old('queue_type', 'without_down_payment') }}',
+        apartment_type: '{{ old('apartment_type', '1_room') }}',
+        monthly_payment: '{{ old('monthly_payment') }}',
+        custom_monthly: '{{ old('custom_monthly') }}',
+        down_payment: '{{ old('down_payment') }}',
+        payment_term: '{{ old('payment_term') }}',
+        number: '{{ old('number') }}'
+      }" class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 lg:max-h-screen">
         @csrf
+        <input type="hidden" name="currentStage" x-model="currentStage">
 
         <div class="w-full my-4 lg:hidden">
             <img src="{{ asset('img/25.webp') }}" class="w-full h-60 sm:h-64 object-cover rounded-[24px]">
