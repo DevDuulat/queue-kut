@@ -8,7 +8,7 @@
         down_payment: null,
         payment_term: null,
         number: ''
-    }" class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 lg:max-h-screen p-0 lg:p-6">
+    }" class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 lg:max-h-screen">
         @csrf
 
         <div class="w-full my-4 lg:hidden">
@@ -32,7 +32,7 @@
 
                 <h2 class="text-3xl font-bold tracking-tight text-gray-900 mb-8 text-center lg:text-center">ОЧЕРЕДЬ НА КВАРТИРУ</h2>
 
-                <div class="flex justify-center w-full mb-8">
+                <div class="flex justify-center w-full mb-4">
                     <x-queue.steps-indicator />
                 </div>
 
@@ -40,13 +40,13 @@
                     <x-queue.stage-one />
                 </div>
                 <div x-show="currentStage === 2" id="stage-2">
-                    <x-queue.stage-two />
+                    <x-queue.stage-two :curators="$curators" />
                 </div>
                 <div x-show="currentStage === 3" id="stage-3">
                     <x-queue.stage-three />
                 </div>
 
-                <div class="w-full flex justify-center space-x-6 pt-6 pb-4 px-4 sm:px-6 lg:px-8 border-t border-gray-200 bg-[#F5F5F5]/90 sticky bottom-0 lg:relative">
+                <div class="w-full flex justify-center space-x-6 pt-6 pb-4 px-4 sm:px-6 lg:px-8  border-gray-200 bg-[#F5F5F5]/90 sticky bottom-0 lg:relative">
                     <button type="button" @click="currentStage--" x-show="currentStage > 1" :disabled="currentStage === 1"
                             class="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 disabled:opacity-50 transition duration-150">
                         <x-icons.prev-icon/>
