@@ -228,8 +228,7 @@
         }
     </style>
 </head>
-<body class="px-6 lg:py-8 lg:px-12">
-
+<body class="px-4 py-6 sm:px-6 sm:py-8 lg:px-12 lg:py-12">
 
 @if(session('error'))
     <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
