@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('phone_number', 20);
-            $table->string('curator_id', 50)->nullable();
+            $table->integer('curator_id')->nullable();
             $table->string('inn', 14)->unique();
             $table->string('document_series', 10)->nullable();
             $table->string('document_number', 7)->unique();
