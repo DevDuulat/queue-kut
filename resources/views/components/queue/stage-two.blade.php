@@ -11,36 +11,52 @@
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-    <div x-data="phoneMask()">
+    <div x-data="phoneMaskExtended()" x-init="setPhoneMask(selectedCountry.mask)">
         <label for="phone_number" class="text-base font-medium text-gray-900 mb-2 block">Номер телефона *</label>
         <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 font-medium pr-3 pointer-events-none">
-                <span class="py-4">+996</span>
-            </span>
+            <div x-data="{ open: false }" class="absolute inset-y-0 left-0 flex items-center pl-4 pr-1">
+                <button type="button" @click="open = !open" @click.away="open = false" class="py-4 text-gray-500 font-medium pr-3 flex items-center transition duration-150 hover:text-gray-900 focus:outline-none">
+                    <span x-text="selectedCountry.code"></span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+
+                <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute z-20 mt-2 w-max origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none top-full left-0">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <template x-for="country in countries" :key="country.id">
+                            <a href="#" @click.prevent="selectCountry(country); open = false" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" :class="{'bg-gray-100': selectedCountry.id === country.id}">
+                                <span x-text="country.name + ' (' + country.code + ')'"></span>
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
             <input
                     type="tel"
                     name="phone_number"
                     id="phone_number"
-                    placeholder="(700) 000 - 000"
+                    :placeholder="selectedCountry.placeholder"
                     required
-                    class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 pl-[70px]"
+                    class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 pl-[105px]"
                     x-model="number"
                     @input="formatPhone"
+                    x-ref="phoneNumberInput"
             />
+            <input type="hidden" name="country_code" :value="selectedCountry.code">
         </div>
     </div>
 
     <div x-data="{
-    open: false,
-    selectedCuratorId: null,
-    selectedCuratorName: 'Любой куратор',
-    search: '',
-    filteredCurators() {
-        return this.search
-            ? curators.filter(c => c.name.toLowerCase().includes(this.search.toLowerCase()))
-            : curators;
-    }
-}" class="relative max-w-sm">
+        open: false,
+        selectedCuratorId: null,
+        selectedCuratorName: 'Любой куратор',
+        search: '',
+        filteredCurators() {
+            return this.search
+                ? curators.filter(c => c.name.toLowerCase().includes(this.search.toLowerCase()))
+                : curators;
+        }
+    }" class="relative max-w-sm">
         <label class="block text-base font-medium text-gray-900 mb-2">Куратор</label>
         <input type="hidden" name="curator_id" :value="selectedCuratorId">
         <div @click="open = !open" class="select-style block w-full rounded-[24px] bg-white p-4 cursor-pointer border border-gray-200">
@@ -64,11 +80,8 @@
     </div>
 
     <script>
-        const curators = @json($curators);
+        const curators = @json($curators); // Assuming this is defined elsewhere
     </script>
-
-
-
 </div>
 
 <h3 class="text-lg font-semibold text-gray-900 mb-4">Паспортные данные</h3>
@@ -102,20 +115,20 @@
 
     <div id="stage-1">
         <div x-data x-init="
-    flatpickr($refs.issueDate, {
-        dateFormat: 'd.m.Y',
-        locale: 'ru',
-        allowInput: true,
-        clickOpens: true
-    })
-">
+            flatpickr($refs.issueDate, {
+                dateFormat: 'd.m.Y',
+                locale: 'ru',
+                allowInput: true,
+                clickOpens: true
+            })
+        ">
             <label for="issue_date" class="sr-only">Дата выдачи</label>
             <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-            <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H3V0H5V2H13V0H15V2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V8H2V18ZM2 6H16V4H2V6Z" fill="#252525"/>
-            </svg>
-        </span>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H3V0H5V2H13V0H15V2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V8H2V18ZM2 6H16V4H2V6Z" fill="#252525"/>
+                    </svg>
+                </span>
                 <input
                         type="text"
                         name="issue_date"
@@ -126,7 +139,6 @@
                 />
             </div>
         </div>
-
     </div>
 </div>
 
@@ -135,6 +147,79 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
 
 <script>
+    // Оригинальная функция phoneMask (для Кыргызстана)
+    function phoneMask() {
+        return {
+            number: '',
+            formatPhone(e) {
+                const x = e.target.value.replace(/\D/g, '').slice(0, 9);
+                if (x.length > 5) {
+                    this.number = `(${x.slice(0, 3)}) ${x.slice(3, 6)} - ${x.slice(6, 9)}`;
+                } else if (x.length > 3) {
+                    this.number = `(${x.slice(0, 3)}) ${x.slice(3)}`;
+                } else {
+                    this.number = x;
+                }
+            }
+        }
+    }
+
+    function phoneMaskExtended() {
+        return {
+            number: '',
+            // Упрощенные маски: # - заменитель для цифры
+            countries: [
+                { id: 'kg', name: 'Кыргызстан', code: '+996', mask: '(###) ### - ###', placeholder: '(700) 000 - 000', maxlen: 9 },
+                { id: 'ru', name: 'Россия', code: '+7', mask: '(###) ### - ## - ##', placeholder: '(900) 000 - 00 - 00', maxlen: 10 },
+            ],
+            selectedCountry: { id: 'kg', name: 'Кыргызстан', code: '+996', mask: '(###) ### - ###', placeholder: '(700) 000 - 000', maxlen: 9 },
+            currentMask: '(###) ### - ###',
+
+            setPhoneMask(mask) {
+                this.currentMask = mask;
+            },
+
+            selectCountry(country) {
+                this.selectedCountry = country;
+                this.currentMask = country.mask;
+                this.number = '';
+                this.$refs.phoneNumberInput.focus();
+            },
+
+            // Упрощенная и более чистая логика форматирования
+            formatPhone(e) {
+                const input = e.target;
+                // 1. Очищаем ввод: оставляем только цифры, ограничивая длину
+                const cleaned = input.value.replace(/\D/g, '').slice(0, this.selectedCountry.maxlen);
+                let formatted = '';
+                let cleanedIndex = 0;
+                const mask = this.currentMask;
+
+                // 2. Применяем цифры к маске
+                for (let i = 0; i < mask.length; i++) {
+                    const maskChar = mask[i];
+
+                    if (cleanedIndex >= cleaned.length) {
+                        // Если цифры закончились, прекращаем форматирование
+                        break;
+                    }
+
+                    if (maskChar === '#') {
+                        // Если символ маски — это заменитель (#), вставляем следующую цифру
+                        formatted += cleaned[cleanedIndex];
+                        cleanedIndex++;
+                    } else {
+                        // Если символ маски — разделитель ((), -, пробел), добавляем его
+                        formatted += maskChar;
+                    }
+                }
+
+                this.number = formatted;
+            }
+        }
+    }
+
+
     function validateStep(step) {
         const stage = document.querySelector(`#stage-${step}`);
         if (!stage) return true;
