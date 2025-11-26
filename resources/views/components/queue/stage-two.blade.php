@@ -30,38 +30,45 @@
         </div>
     </div>
 
-    <div x-data="{ open: false, selectedCurator: 'Любой куратор' }" class="relative max-w-sm">
-        <label for="curator-select" class="text-base font-medium text-gray-900 mb-2 block">Выберите куратора</label>
-        <input type="hidden" name="curator_id" :value="selectedCurator === 'Любой куратор' ? '' : selectedCurator" />
-
-        <div @click="open = !open" id="curator-select"
-             class="select-style block w-full rounded-[24px] bg-white p-4 text-gray-700 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 appearance-none cursor-pointer border border-gray-200">
-            <span x-text="selectedCurator">Любой куратор</span>
+    <div x-data="{
+    open: false,
+    selectedCuratorId: null,
+    selectedCuratorName: 'Любой куратор',
+    search: '',
+    filteredCurators() {
+        return this.search
+            ? curators.filter(c => c.name.toLowerCase().includes(this.search.toLowerCase()))
+            : curators;
+    }
+}" class="relative max-w-sm">
+        <label class="block text-base font-medium text-gray-900 mb-2">Куратор</label>
+        <input type="hidden" name="curator_id" :value="selectedCuratorId">
+        <div @click="open = !open" class="select-style block w-full rounded-[24px] bg-white p-4 cursor-pointer border border-gray-200">
+            <span x-text="selectedCuratorName"></span>
         </div>
 
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700" style="top: 34px;">
-            <svg class="h-5 w-5 transition duration-150 transform" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-        </div>
-
-        <div x-show="open" @click.away="open = false" class="absolute z-10 w-full mt-1 bg-white rounded-[24px] shadow-lg p-2 space-y-1 border border-gray-200">
-
-            <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-xl cursor-pointer" @click="selectedCurator = 'Любой куратор'; open = false">
-                <label class="text-base text-gray-700 cursor-pointer w-full">Любой куратор</label>
-                <input type="radio" checked class="h-5 w-5 text-yellow-500 border-gray-300 focus:ring-yellow-500">
+        <div x-show="open" x-transition @click.away="open = false" class="absolute z-10 w-full mt-1 bg-white rounded-[24px] shadow-lg p-2 border border-gray-200 max-h-60 overflow-y-auto">
+            <input type="text" x-model="search" placeholder="Поиск куратора..." class="w-full mb-2 p-2 border border-gray-300 rounded-lg">
+            <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-xl cursor-pointer" @click="selectedCuratorId = null; selectedCuratorName = 'Любой куратор'; open = false">
+                <label class="text-base text-gray-700 w-full">Любой куратор</label>
+                <input type="radio" :checked="selectedCuratorId === null" class="h-5 w-5 text-yellow-500 border-gray-300 focus:ring-yellow-500">
             </div>
-
-            <hr class="border-gray-100">
-
-            <template x-for="c in ['Асан Асанов','Иван Иванов','Үсөн Үсөнов','Баланчаев Баланча']">
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-xl cursor-pointer" @click="selectedCurator = c; open = false">
-                    <label class="text-base text-gray-700 cursor-pointer w-full" x-text="c"></label>
-                    <input type="radio" class="h-5 w-5 text-yellow-500 border-gray-300 focus:ring-yellow-500">
+            <hr class="border-gray-100 mb-2">
+            <template x-for="curator in filteredCurators()" :key="curator.id">
+                <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-xl cursor-pointer" @click="selectedCuratorId = curator.id; selectedCuratorName = curator.name; open = false">
+                    <label class="text-base text-gray-700 w-full" x-text="curator.name"></label>
+                    <input type="radio" :checked="selectedCuratorId === curator.id" class="h-5 w-5 text-yellow-500 border-gray-300 focus:ring-yellow-500">
                 </div>
             </template>
         </div>
     </div>
+
+    <script>
+        const curators = @json($curators);
+    </script>
+
+
+
 </div>
 
 <h3 class="text-lg font-semibold text-gray-900 mb-4">Паспортные данные</h3>
