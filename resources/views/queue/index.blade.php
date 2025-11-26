@@ -12,11 +12,11 @@
         @csrf
 
         <div class="w-full my-4 lg:hidden">
-            <img src="{{ asset('img/kut_image.webp') }}" class="w-full h-60 sm:h-64 object-cover rounded-[24px]">
+            <img src="{{ asset('img/25.webp') }}" class="w-full h-60 sm:h-64 object-cover rounded-[24px]">
         </div>
 
         <div class="h-full rounded-[24px] hidden lg:block">
-            <img src="{{ asset('img/kut_image.webp') }}" class="w-full h-full object-cover rounded-[24px]">
+            <img src="{{ asset('img/25.webp') }}" class="w-full h-full object-cover rounded-[24px]">
         </div>
 
         <div class="bg-[#F5F5F5] flex flex-col items-center lg:col-span-2 rounded-[24px] border border-gray-100 h-auto lg:h-full lg:p-6 py-6 sm:py-8">
