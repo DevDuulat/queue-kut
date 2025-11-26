@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\QueueType;
 use App\Http\Requests\StoreQueueRequest;
 use App\Models\Queue;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -61,6 +62,23 @@ class QueueController extends Controller
 
         $managerName = collect($curators)->firstWhere('id', $queue->curator_id)['name'] ?? 'Менеджер не назначен';
 
+        $ticket_data = [
+            'queue_number' => str_pad($queue->id, 4, '0', STR_PAD_LEFT),
+            'queue_type' => match($queue->queue_type) {
+                QueueType::WithoutDownPayment->value => 'Без взноса',
+                QueueType::WithDownPayment->value => 'С первоначальным взносом',
+                default => $queue->queue_type
+            },
+            'apartment_type' => $queue->apartment_type.'-комнатная',
+            'full_name' => $queue->last_name.' '.$queue->first_name.' '.($queue->patronymic ?? ''),
+            'phone_number' => $queue->phone_number,
+            'monthly_payment' => $monthly_payment,
+            'down_payment' => $down_payment,
+            'manager' => $managerName
+        ];
+
+        session(['queue_ticket_data' => $ticket_data]);
+
         $popup_data = [
             'queue_number' => str_pad($queue->id, 4, '0', STR_PAD_LEFT),
             'queue_type' => match($queue->queue_type) {
@@ -81,7 +99,15 @@ class QueueController extends Controller
             ->with('popup_data', $popup_data);
     }
 
+    public function downloadTicket()
+    {
+        $data = session('queue_ticket_data');
 
+        if (!$data) {
+            return redirect()->back()->with('error', 'Данные талона не найдены');
+        }
 
-
+        $pdf = Pdf::loadView('pdf.queue_ticket', ['data' => $data]);
+        return $pdf->download('queue_ticket_'.$data['queue_number'].'.pdf');
+    }
 }
