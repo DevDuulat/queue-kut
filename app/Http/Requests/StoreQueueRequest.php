@@ -24,14 +24,25 @@ class StoreQueueRequest extends FormRequest
         }
 
         $phone = $this->phone_number;
+
         if (!empty($phone)) {
             $digits = preg_replace('/\D/', '', $phone);
-            if (strlen($digits) === 9) {
-                $digits = '996'.$digits;
-            } elseif (!str_starts_with($digits, '996')) {
-                $digits = '996'.$digits;
+
+            if (str_starts_with($digits, '996')) {
+                $digits = substr($digits, 3);
+                $digits = '996' . substr($digits, 0, 9);
+            } elseif (str_starts_with($digits, '7')) {
+                $digits = substr($digits, 1);
+                $digits = '7' . substr($digits, 0, 10);
+            } else {
+                if (strlen($digits) === 9) {
+                    $digits = '996' . $digits;
+                } elseif (strlen($digits) === 10) {
+                    $digits = '7' . $digits;
+                }
             }
-            $phone = '+'.$digits;
+
+            $phone = '+' . $digits;
         }
 
         $this->merge([
@@ -47,7 +58,7 @@ class StoreQueueRequest extends FormRequest
             'apartment_type' => 'required|in:1,2,3,4',
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
-            'phone_number' => ['required', 'regex:/^\+996\d{9}$/'],
+            'phone_number' => ['required', 'regex:/^\+(996\d{9}|7\d{10})$/'],
             'curator_id' => 'nullable|string|max:50',
             'inn' => 'required|string|max:14',
             'document_number' => 'required|string|max:7',
