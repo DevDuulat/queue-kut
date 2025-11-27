@@ -36,12 +36,12 @@
                        placeholder="Введите сумму"
                        :class="monthly_payment_no_down !== 'other' ? 'hidden' : 'mt-3 block w-full rounded-[24px] bg-white p-4 border border-yellow-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150'">
             </label>
-            @error('monthly_payment_no_down')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-            @error('custom_monthly_payment')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
+                @error('monthly_payment_no_down')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+                @error('custom_monthly_payment')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
         </div>
     </div>
 

@@ -18,34 +18,25 @@ class StoreQueueRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $queue = $this->queue_type;
-
         try {
-            $queue = QueueType::fromFrontend($queue)->value;
+            $queue = QueueType::fromFrontend($this->queue_type)->value;
         } catch (\Throwable $e) {
             $queue = null;
         }
 
         $phone = $this->phone_number;
-
         if (!empty($phone)) {
             $digits = preg_replace('/\D/', '', $phone);
 
-            if (str_starts_with($digits, '996')) {
-                $digits = substr($digits, 3);
-                $digits = '996' . substr($digits, 0, 9);
-            } elseif (str_starts_with($digits, '7')) {
-                $digits = substr($digits, 1);
-                $digits = '7' . substr($digits, 0, 10);
-            } else {
-                if (strlen($digits) === 9) {
-                    $digits = '996' . $digits;
-                } elseif (strlen($digits) === 10) {
-                    $digits = '7' . $digits;
-                }
+            if (strlen($digits) === 9) {
+                $digits = '996' . $digits;
+            } elseif (strlen($digits) === 10) {
+                $digits = '7' . $digits;
+            } elseif (!in_array(strlen($digits), [12, 11]) || !preg_match('/^(996|7)/', $digits)) {
+                $digits = null;
             }
 
-            $phone = '+' . $digits;
+            $phone = $digits ? '+' . $digits : null;
         }
 
         $this->merge([
@@ -53,6 +44,7 @@ class StoreQueueRequest extends FormRequest
             'phone_number' => $phone,
         ]);
     }
+
 
     public function rules()
     {
