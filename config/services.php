@@ -35,7 +35,13 @@ return [
         ],
     ],
     'curators' => [
-        'url' => env('CURATORS_API_URL'),
+        'moscow' => [
+            'url' => env('CURATORS_API_MOSCOW_URL'),
+        ],
+        'bishkek' => [
+            'url' => env('CURATORS_API_BISHKEK_URL'),
+        ],
     ],
+
 
 ];

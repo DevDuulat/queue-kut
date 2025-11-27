@@ -18,13 +18,20 @@ class QueueController extends Controller
 {
     public function index()
     {
-        $curators = Cache::remember('curators', 3600, function () {
-            $response = Http::get(config('services.curators.url'));
-            return $response->successful() ? $response->json() : [];
-        });
+        $curators = [
+            'bishkek' => Cache::remember('curators_bishkek', 3600, function () {
+                $response = Http::get(config('services.curators.bishkek.url'));
+                return $response->successful() ? $response->json() : [];
+            }),
+            'moscow' => Cache::remember('curators_moscow', 3600, function () {
+                $response = Http::get(config('services.curators.moscow.url'));
+                return $response->successful() ? $response->json() : [];
+            }),
+        ];
 
         return view('queue.index', compact('curators'));
     }
+
 
     public function store(StoreQueueRequest $request, QueueService $service)
     {
