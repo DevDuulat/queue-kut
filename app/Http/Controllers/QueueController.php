@@ -19,7 +19,7 @@ class QueueController extends Controller
     public function index()
     {
         $curators = Cache::remember('curators', 3600, function () {
-            $response = Http::get('https://base.kutstroy.kg/api/get-curators');
+            $response = Http::get(config('services.curators.url'));
             return $response->successful() ? $response->json() : [];
         });
 
