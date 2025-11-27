@@ -79,15 +79,24 @@
         function validateStep(step) {
             const stage = document.querySelector(`#stage-${step}`);
             if (!stage) return true;
-            const inputs = stage.querySelectorAll('input[required], select[required], textarea[required]');
+
+            const inputs = stage.querySelectorAll('input[required]:not([type="hidden"]), select[required], textarea[required]');
+
             for (let input of inputs) {
+                if (!input.value.trim()) {
+                    input.reportValidity();
+                    return false;
+                }
+
                 if (!input.checkValidity()) {
                     input.reportValidity();
                     return false;
                 }
             }
+
             return true;
         }
+
     </script>
 
 </x-layouts.app>

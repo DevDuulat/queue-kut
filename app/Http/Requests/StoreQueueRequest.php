@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\QueueType;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 
 class StoreQueueRequest extends FormRequest
@@ -111,6 +114,21 @@ class StoreQueueRequest extends FormRequest
             'payment_term.required_if' => 'Выберите срок оплаты',
             'payment_term.in' => 'Некорректный срок оплаты',
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        Log::error('StoreQueueRequest validation failed', [
+            'errors' => $validator->errors()->toArray(),
+            'input' => $this->all(),
+        ]);
+
+        throw new HttpResponseException(
+            redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput()
+        );
     }
 
 }
