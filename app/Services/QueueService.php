@@ -22,7 +22,7 @@ class QueueService
         $queue = Queue::create($data);
 
         $monthly_payment = $queue->queue_type === QueueType::WithoutDownPayment->value
-            ? ($data['monthly_payment_no_down'] === 'other'
+            ? (($data['monthly_payment_no_down'] ?? null) === 'other'
                 ? number_format($data['custom_monthly_payment'] ?? 0, 0, '', ' ')
                 : number_format($data['monthly_payment_no_down'] ?? 0, 0, '', ' '))
             : number_format($data['custom_monthly_payment'] ?? 0, 0, '', ' ');

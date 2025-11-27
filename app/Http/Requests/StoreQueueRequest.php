@@ -68,7 +68,7 @@ class StoreQueueRequest extends FormRequest
             'document_series' => 'required|in:ID,AN',
             'issued_by' => 'required|string|max:255',
             'issue_date' => 'required|date_format:d.m.Y',
-            'monthly_payment_no_down' => 'nullable|required_if:queue_type,'.QueueType::WithoutDownPayment->value.'|in:40000,60000,80000,other',
+            'monthly_payment_no_down' => 'nullable|in:40000,60000,80000,other',
             'custom_monthly_payment' => 'nullable|required_if:monthly_payment_no_down,other|integer|min:0',
 //            'monthly_payment_custom' => 'nullable|numeric|min:60000',
             'down_payment' => 'nullable|required_if:queue_type,'.QueueType::WithDownPayment->value.'|integer|min:1000000',
