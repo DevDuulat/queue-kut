@@ -120,7 +120,10 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
     <div>
         <label for="inn" class="sr-only">ИНН</label>
-        <input type="text" x-model="inn" name="inn" id="inn" placeholder="ИНН *" maxlength="14" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+        <input type="text" x-model="inn" name="inn" id="inn" placeholder="ИНН *" maxlength="14" required
+               inputmode="numeric"
+               @input="inn = inn.replace(/\D/g, '')"
+               class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
         @error('inn')
         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
         @enderror
@@ -133,12 +136,16 @@
         <div class="relative">
             <button type="button" class="absolute inset-y-0 left-0 flex items-center pl-4 pr-3" @click="swapped = !swapped">
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 16L4.6 14.575L7.175 12H0V10H7.175L4.6 7.425L6 6L11 11L6 16ZM14 10L9 5L14 0L15.4 1.425L12.825 4H20V6H12.825L15.4 8.575L14 10Z" fill="#999999"/>
+                    <path d="M6 16L4.6 14.575L7.175 12H0V10H7.175L4.6 7.425L6 6L11 11L6 16ZM14 10L9 5L14 0L15.4 1.425L12.825 4H20V6H12.825L15.4 8.575L14 10Z" fill="#000000"/>
                 </svg>
                 <span class="ml-1 text-black" x-text="swapped ? 'AN' : 'ID'"></span>
             </button>
 
-            <input type="text" name="document_number" x-model="document_number" placeholder="Номер документа *" required maxlength="7" class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 pl-[90px]">
+            <input type="text" name="document_number" x-model="document_number" placeholder="Номер документа *" required maxlength="7"
+                   inputmode="numeric"
+                   @input="document_number = document_number.replace(/\D/g, '')"
+                   class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-150 pl-[90px]">
+
             @error('document_number')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
