@@ -98,5 +98,25 @@
         }
 
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('queueForm');
 
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ env('GOOGLE_RECAPTCHA_KEY') }}', { action: 'queue_submit' })
+                        .then(function(token) {
+                            let input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'g-recaptcha-response';
+                            input.value = token;
+                            form.prepend(input);
+                            form.submit();
+                        });
+                });
+            });
+        });
+    </script>
 </x-layouts.app>

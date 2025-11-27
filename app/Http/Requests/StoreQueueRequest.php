@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ReCaptcha;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\QueueType;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -65,6 +66,8 @@ class StoreQueueRequest extends FormRequest
 //            'monthly_payment_custom' => 'nullable|numeric|min:60000',
             'down_payment' => 'nullable|required_if:queue_type,'.QueueType::WithDownPayment->value.'|integer|min:1000000',
             'payment_term' => 'nullable|required_if:queue_type,'.QueueType::WithDownPayment->value.'|in:2,4,5,6',
+            'g-recaptcha-response' => ['required', new ReCaptcha()],
+
         ];
     }
     public function messages()
@@ -105,6 +108,7 @@ class StoreQueueRequest extends FormRequest
             'down_payment.min' => 'Минимальная сумма — 1 000 000',
             'payment_term.required_if' => 'Выберите срок оплаты',
             'payment_term.in' => 'Некорректный срок оплаты',
+            'g-recaptcha-response.required' => 'Подтвердите, что вы не робот',
         ];
     }
 
