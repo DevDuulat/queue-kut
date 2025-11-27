@@ -1,5 +1,5 @@
 <x-layouts.app title="Очередь на квартиру">
-    <form id="queueForm"  action="{{ route('queue.submit') }}" method="POST"
+    <form action="{{ route('queue.submit') }}" method="POST"
           x-data="{
         currentStage: {{ old('currentStage', 1) }},
         queue_type: '{{ old('queue_type', 'without_down_payment') }}',
@@ -76,6 +76,28 @@
     <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('queueForm');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ env('GOOGLE_RECAPTCHA_KEY') }}', { action: 'queue_submit' })
+                        .then(function(token) {
+                            let input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'g-recaptcha-response';
+                            input.value = token;
+                            form.prepend(input);
+
+                            form.submit();
+                        });
+                });
+            });
+        });
+    </script>
+    <script>
         function validateStep(step) {
             const stage = document.querySelector(`#stage-${step}`);
             if (!stage) return true;
@@ -98,25 +120,5 @@
         }
 
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('queueForm');
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('{{ env('GOOGLE_RECAPTCHA_KEY') }}', { action: 'queue_submit' })
-                        .then(function(token) {
-                            let input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'g-recaptcha-response';
-                            input.value = token;
-                            form.prepend(input);
-                            form.submit();
-                        });
-                });
-            });
-        });
-    </script>
 </x-layouts.app>
