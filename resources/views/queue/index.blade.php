@@ -1,5 +1,5 @@
 <x-layouts.app title="Очередь на квартиру">
-    <form action="{{ route('queue.submit') }}" method="POST"
+    <form id="queueForm"  action="{{ route('queue.submit') }}" method="POST"
           x-data="{
         currentStage: {{ old('currentStage', 1) }},
         queue_type: '{{ old('queue_type', 'without_down_payment') }}',
