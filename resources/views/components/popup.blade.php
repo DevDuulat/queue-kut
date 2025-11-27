@@ -25,10 +25,12 @@
                 <span>Телефон:</span>
                 <span class="detail-value-bold">{{ session('popup_data.phone_number') }}</span>
             </div>
-            <div class="detail-row">
-                <span>Ежемесячный платёж:</span>
-                <span class="detail-value-light">до {{ session('popup_data.monthly_payment') }}</span>
-            </div>
+            @if(session('popup_data.monthly_payment') > 0)
+                <div class="detail-row">
+                    <span>Ежемесячный платёж:</span>
+                    <span class="detail-value-light">до {{ session('popup_data.monthly_payment') }}</span>
+                </div>
+            @endif
             <div class="detail-row">
                 <span>Менеджер:</span>
                 <span class="detail-value-bold">{{ session('popup_data.manager') }}</span>
