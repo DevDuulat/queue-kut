@@ -73,7 +73,7 @@
         </div>
     </form>
     <x-popup />
-
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
 
     <script>
         function validateStep(step) {
