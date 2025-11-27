@@ -1,5 +1,5 @@
 <x-layouts.app title="Очередь на квартиру">
-    <form action="{{ route('queue.submit') }}" method="POST"
+    <form id="queueForm" action="{{ route('queue.submit') }}" method="POST"
           x-data="{
         currentStage: {{ old('currentStage', 1) }},
         queue_type: '{{ old('queue_type', 'without_down_payment') }}',
@@ -73,8 +73,8 @@
         </div>
     </form>
     <x-popup />
-    <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
 
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('queueForm');
@@ -90,7 +90,6 @@
                             input.name = 'g-recaptcha-response';
                             input.value = token;
                             form.prepend(input);
-
                             form.submit();
                         });
                 });
