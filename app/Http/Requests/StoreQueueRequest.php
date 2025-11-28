@@ -64,7 +64,7 @@ class StoreQueueRequest extends FormRequest
             'monthly_payment_no_down' => 'nullable|in:40000,60000,80000,other',
             'custom_monthly_payment' => 'nullable|required_if:monthly_payment_no_down,other|integer|min:0',
 //            'monthly_payment_custom' => 'nullable|numeric|min:60000',
-            'down_payment' => 'nullable|required_if:queue_type,'.QueueType::WithDownPayment->value.'|integer|min:1000000',
+            'down_payment' => 'nullable|required_if:queue_type,'.QueueType::WithDownPayment->value.'|integer|min:500000',
             'payment_term' => 'nullable|required_if:queue_type,'.QueueType::WithDownPayment->value.'|in:2,4,5,6',
             'g-recaptcha-response' => ['required', new ReCaptcha()],
 
@@ -105,7 +105,7 @@ class StoreQueueRequest extends FormRequest
             'monthly_payment_custom.min' => 'Минимальная сумма — 60000',
             'down_payment.required_if' => 'Введите сумму первоначального взноса',
             'down_payment.integer' => 'Значение должно быть числом',
-            'down_payment.min' => 'Минимальная сумма — 1 000 000',
+            'down_payment.min' => 'Минимальная сумма — 500 000',
             'payment_term.required_if' => 'Выберите срок оплаты',
             'payment_term.in' => 'Некорректный срок оплаты',
             'g-recaptcha-response.required' => 'Подтвердите, что вы не робот',

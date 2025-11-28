@@ -52,8 +52,8 @@
             <input
                     type="number"
                     name="down_payment"
-                    min="1000000"
-                    placeholder="Минимальная сумма: 1 000 000 сом"
+                    min="500000"
+                    placeholder="Минимальная сумма: 500 000 сом"
                     x-model="down_payment"
                     class="block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 border border-gray-200 focus:border-yellow-400 transition duration-150"
             />
