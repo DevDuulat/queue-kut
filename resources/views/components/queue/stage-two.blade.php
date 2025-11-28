@@ -6,6 +6,9 @@
         issue_date: '{{ old('issue_date') }}',
         issued_by: '{{ old('issued_by') }}',
         document_number: '{{ old('document_number') }}',
+        middle_name: '{{ old('middle_name') }}',
+        birth_date: '{{ old('birth_date') }}',
+        address: '{{ old('address') }}',
         openCurator: false,
         selectedCuratorId: {{ old('curator_id', 0) }},
         selectedCuratorName: '{{ old('curator_id')
@@ -21,7 +24,7 @@
 
     <h3 class="text-lg font-semibold text-gray-900">Личные данные</h3>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
             <label for="first_name" class="sr-only">Имя</label>
             <input type="text" name="first_name" x-model="first_name" id="first_name" placeholder="Имя *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
@@ -36,7 +39,44 @@
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
+        <div>
+            <label for="middle_name" class="sr-only">Отчество</label>
+            <input type="text" name="middle_name" x-model="middle_name" id="middle_name" placeholder="Отчество" class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+            @error('middle_name')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+            <label for="address" class="sr-only">Адресс</label>
+            <input type="text" name="address" x-model="address" id="address" placeholder="Адресс *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+            @error('address')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div x-data x-init="
+    flatpickr($refs.birthDate, {
+        dateFormat: 'd.m.Y',
+        locale: 'ru',
+        allowInput: true,
+        clickOpens: true
+    })
+">
+            <label for="birth_date" class="sr-only">Дата рождения</label>
+            <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+            <svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H3V0H5V2H13V0H15V2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V8H2V18ZM2 6H16V4H2V6Z" fill="#252525"/></svg>
+        </span>
+                <input type="text" name="birth_date" x-ref="birthDate" x-model="birth_date" placeholder="Дата рождения" class="datepicker input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 pl-[70px] focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+                @error('birth_date')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+    </div>
+
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {{-- Телефон --}}

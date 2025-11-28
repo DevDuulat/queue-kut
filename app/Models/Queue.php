@@ -16,6 +16,7 @@ class Queue extends Model
         'apartment_type',
         'first_name',
         'last_name',
+        'middle_name',
         'phone_number',
         'curator_id',
         'inn',
@@ -26,6 +27,8 @@ class Queue extends Model
         'custom_monthly_payment',
         'down_payment',
         'payment_term',
+        'birth_date',
+        'address',
         'issue_date',
     ];
 
@@ -36,5 +39,6 @@ class Queue extends Model
         'down_payment' => 'integer',
         'payment_term' => 'integer',
         'issue_date' => 'date',
+        'birth_date' => 'date',
     ];
 }

@@ -28,7 +28,6 @@ return new class extends Migration
             $table->unsignedBigInteger('down_payment')->nullable();
             $table->unsignedSmallInteger('payment_term')->nullable();
             $table->date('issue_date');
-
             $table->timestamps();
         });
     }
