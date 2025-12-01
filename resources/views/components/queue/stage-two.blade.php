@@ -26,16 +26,16 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-            <label for="first_name" class="sr-only">Имя</label>
-            <input type="text" name="first_name" x-model="first_name" id="first_name" placeholder="Имя *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
-            @error('first_name')
+            <label for="last_name" class="sr-only">Фамилия</label>
+            <input type="text" name="last_name" x-model="last_name" id="last_name" placeholder="Фамилия *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+            @error('last_name')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
         <div>
-            <label for="last_name" class="sr-only">Фамилия</label>
-            <input type="text" name="last_name" x-model="last_name" id="last_name" placeholder="Фамилия *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
-            @error('last_name')
+            <label for="first_name" class="sr-only">Имя</label>
+            <input type="text" name="first_name" x-model="first_name" id="first_name" placeholder="Имя *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+            @error('first_name')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
@@ -50,8 +50,8 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-            <label for="address" class="sr-only">Адресс</label>
-            <input type="text" name="address" x-model="address" id="address" placeholder="Адресс *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
+            <label for="address" class="sr-only">Адрес</label>
+            <input type="text" name="address" x-model="address" id="address" placeholder="Адрес *" required class="input-style block w-full rounded-[24px] bg-white p-4 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none" />
             @error('address')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
